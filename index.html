@@ -6,7 +6,7 @@
     <title>Unity WebGL Player | LSystem Explorer</title>
   </head>
   <body style="text-align: center">
-    <canvas id="unity-canvas" width=1080 height=720 style="width: 1080px; height: 720px; background: url('Build/WebGL.jpg.gz') center / cover"></canvas>
+    <canvas id="unity-canvas" width=1080 height=720 style="width: 1080px; height: 720px; background: url('Build/WebGL.jpg') center / cover"></canvas>
     <script src="Build/WebGL.loader.js"></script>
     <script>
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
@@ -18,9 +18,9 @@
       }
 
       createUnityInstance(document.querySelector("#unity-canvas"), {
-        dataUrl: "Build/WebGL.data.gz",
-        frameworkUrl: "Build/WebGL.framework.js.gz",
-        codeUrl: "Build/WebGL.wasm.gz",
+        dataUrl: "Build/WebGL.data",
+        frameworkUrl: "Build/WebGL.framework.js",
+        codeUrl: "Build/WebGL.wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DqwertyC Productions",
         productName: "LSystem Explorer",
