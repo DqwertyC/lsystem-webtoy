@@ -1,5 +1,5 @@
 # L-System Webtoy
-Simple Lindenmayer System exploration webtoy built in Unity. You can try it out online [here](https://dqwertyc.github.io/lsystem-webtoy/)!
+Simple [Lindenmayer System](https://en.wikipedia.org/wiki/L-system) exploration webtoy built in Unity. You can try it out online [here](https://dqwertyc.github.io/lsystem-webtoy/)!
 
 ## Navigation
 Use the scroll wheel to zoom in and out. Center click the scroll wheel to pan the image.
