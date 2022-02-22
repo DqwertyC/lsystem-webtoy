@@ -369,9 +369,9 @@ public class LSystem
             return newDefinition;
         }
 
-        public string SaveToString()
+        public string SaveToString(bool pretty = false)
         {
-            return JsonUtility.ToJson(this);
+            return JsonUtility.ToJson(this, pretty);
         }
 
         public void Clean()

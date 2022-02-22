@@ -7,95 +7,103 @@ using UnityEngine.UI;
 [RequireComponent(typeof(EventSystem))]
 public class MenuController : MonoBehaviour
 {
-    bool paused = false;
-    bool hidden = false;
-    public GameObject menuPanel;
-    public RenderCameraController activeCamera;
+  bool paused = false;
+  bool hidden = false;
+  public GameObject menuPanel;
+  public RenderCameraController activeCamera;
 
-    public IterationController iterationController;
-    public MediaController mediaController;
-    public Slider drawSlider;
-    public Slider angleSlider;
+  public IterationController iterationController;
+  public MediaController mediaController;
+  public Slider drawSlider;
+  public Slider angleSlider;
 
-    public List<GameObject> objectsToHide;
-    public List<Button> buttonsToFade;
-    public List<GameObject> objectsToDisableOnWeb;
+  public List<GameObject> objectsToHide;
+  public List<Button> buttonsToFade;
+  public List<GameObject> objectsToDisableOnWeb;
+  public List<GameObject> objectsToShiftOnWeb;
 
-    EventSystem eventSystem;
+  EventSystem eventSystem;
 
-    private void Start()
+  private void Start()
+  {
+    eventSystem = GetComponent<EventSystem>();
+    HideOfflineObjects();
+
+    if (Application.platform == RuntimePlatform.WebGLPlayer)
     {
-        eventSystem = GetComponent<EventSystem>();
-        HideOfflineObjects();
+      foreach (GameObject o in objectsToShiftOnWeb)
+      {
+        o.transform.position = o.transform.position + (40 * Vector3.right);
+      }
+    }
+  }
+
+  // Update is called once per frame
+  void Update()
+  {
+    paused = menuPanel.activeInHierarchy;
+    if (Input.GetKeyDown(KeyCode.Escape))
+    {
+      TogglePause();
     }
 
-    // Update is called once per frame
-    void Update()
+    activeCamera.targetLSystem.iteration = iterationController.value;
+    activeCamera.targetLSystem.drawPercent = drawSlider.value;
+    activeCamera.targetLSystem.turnAngle = angleSlider.value;
+    activeCamera.controlsAreActive = !paused;
+    mediaController.forcePause = paused;
+  }
+
+  public void TogglePause()
+  {
+    paused = !paused;
+    menuPanel.SetActive(paused);
+    eventSystem.SetSelectedGameObject(eventSystem.firstSelectedGameObject);
+    HideOfflineObjects();
+  }
+
+  public void ToggleHide()
+  {
+    hidden = !hidden;
+
+    foreach (GameObject o in objectsToHide)
     {
-        paused = menuPanel.activeInHierarchy;
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            TogglePause();
-        }
-
-        activeCamera.targetLSystem.iteration = iterationController.value;
-        activeCamera.targetLSystem.drawPercent = drawSlider.value;
-        activeCamera.targetLSystem.turnAngle = angleSlider.value;
-        activeCamera.controlsAreActive = !paused;
-        mediaController.forcePause = paused;
-    }
-    
-
-    public void TogglePause()
-    {
-        paused = !paused;
-        menuPanel.SetActive(paused);
-        eventSystem.SetSelectedGameObject(eventSystem.firstSelectedGameObject);
-        HideOfflineObjects();
-    }
-
-    public void ToggleHide()
-    {
-        hidden = !hidden;
-
-        foreach (GameObject o in objectsToHide)
-        {
-            RectTransform transform = o.GetComponent<RectTransform>();
-            transform.position = (hidden ? 10 : 0.1f) * transform.position;
-            //o.SetActive(!hidden);
-        }
-
-        foreach (Button b in buttonsToFade)
-        {
-            ColorBlock colors = b.colors;
-            colors.normalColor = new Color()
-            {
-                r = colors.normalColor.r,
-                g = colors.normalColor.g,
-                b = colors.normalColor.b,
-                a = hidden ? 0 : 1
-            };
-            colors.selectedColor = colors.normalColor;
-            b.colors = colors;
-        }
-
-        eventSystem.SetSelectedGameObject(eventSystem.firstSelectedGameObject);
-        HideOfflineObjects();
+      RectTransform transform = o.GetComponent<RectTransform>();
+      transform.position = (hidden ? 10 : 0.1f) * transform.position;
+      //o.SetActive(!hidden);
     }
 
-    void HideOfflineObjects()
+    foreach (Button b in buttonsToFade)
     {
-        if (Application.platform == RuntimePlatform.WebGLPlayer)
-        {
-            foreach (GameObject o in objectsToDisableOnWeb)
-            {
-                o.SetActive(false);
-            }
-        }
+      ColorBlock colors = b.colors;
+      colors.normalColor = new Color()
+      {
+        r = colors.normalColor.r,
+        g = colors.normalColor.g,
+        b = colors.normalColor.b,
+        a = hidden ? 0 : 1
+      };
+      colors.selectedColor = colors.normalColor;
+      b.colors = colors;
     }
 
-    public void Quit()
+    eventSystem.SetSelectedGameObject(eventSystem.firstSelectedGameObject);
+    HideOfflineObjects();
+  }
+
+  void HideOfflineObjects()
+  {
+    if (Application.platform == RuntimePlatform.WebGLPlayer)
     {
-        Application.Quit();
+      foreach (GameObject o in objectsToDisableOnWeb)
+      {
+        o.SetActive(false);
+      }
     }
+  }
+
+  public void Quit()
+  {
+    Application.Quit();
+  }
 }

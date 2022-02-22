@@ -31,8 +31,6 @@ public class RenderCameraController : MonoBehaviour
         startCameraSize = cameraSize;
         maxCameraSize = cameraSize;
         controlsAreActive = true;
-
-        imageSize = Screen.height / 2;
     }
 
     // Update is called once per frame
@@ -40,6 +38,7 @@ public class RenderCameraController : MonoBehaviour
     {
         if (controlsAreActive)
         {
+            imageSize = Screen.height / 2;
             UpdateZoom();
             UpdateDrag();
         }
