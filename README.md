@@ -30,8 +30,8 @@ Once a system is loaded, you can review the system rules and settings in the bot
 * Notes: Human readable notes on this system.
 
 The "+" button will add a new, blank rule, and the "-" button will remove the bottom rule from the list.  
-The Copy button will copy the current system as JSON to the users clipboard (Unimplemented in WebGL player).
 
+Clicking "Switch View" will switch to a view of the L-System in JSON. This can be used for copying and pasting systems to make sharing easier.
 
 Once you're satisfied with the system rules, click "Apply" to update the drawn curve and "Close" to exit the menu.
 
